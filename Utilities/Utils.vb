@@ -1,8 +1,7 @@
 ﻿Imports BasicRender
-Imports Header
 
 ''' <summary>
-''' General Utilities for the ViBE Server
+''' General Utilities for SmokeSignal
 ''' </summary>
 Public Class Utils
 
@@ -69,14 +68,28 @@ Public Class Utils
         Return TheReturn
     End Function
 
-    ''' <summary>
-    ''' Returns the address of the file in a User's Directory
-    ''' </summary>
-    ''' <param name="ID"></param>
-    ''' <param name="File"></param>
-    ''' <returns></returns>
-    Public Shared Function UserFile(ID As String, File As String)
-        Return UMSWEBDir & "\SSH\USERS\" & ID & "\" & File
-    End Function
+    Public Shared Sub Spinner(left As Integer, top As Integer)
+        Static SpinnerPos As Integer
+        If IsNothing(SpinnerPos) Then SpinnerPos = 0
+
+        SetPos(left, top)
+
+        Select Case SpinnerPos
+            Case 0
+                Echo("|")
+            Case 1
+                Echo("/")
+            Case 2
+                Echo("-")
+            Case 3
+                Echo("\")
+                SpinnerPos = -1
+        End Select
+        SpinnerPos = SpinnerPos + 1
+
+        SetPos(left, top)
+
+    End Sub
+
 
 End Class

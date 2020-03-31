@@ -5,10 +5,11 @@
     <ProjectGuid>{FD378069-CB65-4C18-B3E2-4416001BF866}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <AssemblyName>VibeServer</AssemblyName>
+    <AssemblyName>SmokeSignal</AssemblyName>
     <OutputType>Exe</OutputType>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -21,7 +22,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -30,7 +30,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
-    <DocumentationFile>VibeServer.xml</DocumentationFile>
+    <DocumentationFile>SmokeSignal.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <Optimize>false</Optimize>
     <DebugType>full</DebugType>
@@ -41,7 +41,7 @@
     <DebugSymbols>false</DebugSymbols>
     <DefineDebug>false</DefineDebug>
     <DefineTrace>true</DefineTrace>
-    <DocumentationFile>VibeServer.xml</DocumentationFile>
+    <DocumentationFile>SmokeSignal.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -53,12 +53,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Functions\Bank.vb" />
-    <Compile Include="Functions\Checkbook.vb" />
-    <Compile Include="Functions\Contractus.vb" />
-    <Compile Include="Functions\Core.vb" />
-    <Compile Include="Functions\EzTax.vb" />
-    <Compile Include="Functions\Notif.vb" />
+    <Compile Include="Extensions\DummyExtension.vb" />
+    <Compile Include="Extensions\SmokeSignalExtension.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="Resources.Designer.vb">
       <AutoGen>true</AutoGen>
@@ -75,9 +71,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="VIBEServer.ico" />
   </ItemGroup>
   <ItemGroup>
     <Import Include="Microsoft.VisualBasic" />
@@ -110,7 +103,8 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>VIBEServer.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>Sub Main</StartupObject>

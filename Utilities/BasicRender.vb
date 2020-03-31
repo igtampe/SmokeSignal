@@ -91,21 +91,10 @@ Public Class BasicRender
     ''' <param name="leftpos">Leftmost position of the box</param>
     ''' <param name="toppos">Top most coordinate of the box</param>
     Public Shared Sub Box(ByVal color As ConsoleColor, ByVal length As Integer, ByVal height As Integer, ByVal leftpos As Integer, ByVal toppos As Integer)
-
-
         Dim HeightCounter As Integer
-
         For HeightCounter = 0 To height - 1
-
             Row(color, length, leftpos, toppos + HeightCounter)
-
         Next
-
-
-
-
-
-
     End Sub
 
     ''' <summary>
@@ -124,12 +113,9 @@ Public Class BasicRender
     ''' Position of the sprite topwise (Starts at 0, must include LEFTPOS)
     ''' </param>
     Public Shared Sub Row(ByVal RowColor As ConsoleColor, ByVal Length As Integer, Optional ByVal leftpos As Integer = -1, Optional ByVal toppos As Integer = -1)
-
-
         If Not leftpos = -1 And Not toppos = -1 Then
             Console.SetCursorPosition(leftpos, toppos)
         End If
-
 
         Dim OLDBC As ConsoleColor = Console.BackgroundColor
         Dim OLDFC As ConsoleColor = Console.ForegroundColor
@@ -142,7 +128,6 @@ Public Class BasicRender
 
         Console.BackgroundColor = OLDBC
         Console.ForegroundColor = OLDFC
-
     End Sub
 
     ''' <summary>
@@ -155,9 +140,6 @@ Public Class BasicRender
     ''' In the event that the background isn't black, you can set it to be whatever color you want.
     ''' </param>
     Public Shared Sub ClearLine(ByVal Line As Integer, Optional ByVal Backgroundcolor As ConsoleColor = ConsoleColor.Black)
-
-
-
         Dim OLDBC As ConsoleColor = Console.BackgroundColor
         Dim OLDFC As ConsoleColor = Console.ForegroundColor
         Console.BackgroundColor = Backgroundcolor
@@ -176,8 +158,6 @@ Public Class BasicRender
 
         Console.BackgroundColor = OLDBC
         Console.ForegroundColor = OLDFC
-
-
     End Sub
 
     ''' <summary>
@@ -208,7 +188,6 @@ Public Class BasicRender
             leftpos = ((WindowWidth) - length) / 2
         End If
 
-
         Title = " " & Title & " "
 
         Do
@@ -223,7 +202,6 @@ Public Class BasicRender
             If bottomborder.Count = Title.Count Then Exit Do
             bottomborder &= "═"
         Loop
-
 
         If shadow = True Then
             Box(ConsoleColor.Black, length, height - 1, leftpos + 2, toppos + 2)
@@ -246,9 +224,6 @@ Public Class BasicRender
         Box(WindowBackgroundColor, length, height, leftpos, toppos)
         Sprite(Title, WindowForegroundColor, ConsoleColor.White, leftpos, toppos)
         Sprite(bottomborder, WindowBackgroundColor, ConsoleColor.White, leftpos, toppos + height - 1)
-
-
-
     End Sub
 
     ''' <summary>
@@ -283,9 +258,7 @@ Public Class BasicRender
 
         End If
 
-
-        Box(WindowClearCOlor, length + 2, height + 1, leftpos, toppos)
-
+        Box(WindowClearColor, length + 2, height + 1, leftpos, toppos)
     End Sub
 
 
@@ -755,9 +728,7 @@ rerenderdialogbox:
                     Sprite("▓", CurrentPixelBackground, CurrentPixelForeground)
             End Select
 
-
         Next
-
 
     End Sub
 
@@ -786,11 +757,7 @@ rerenderdialogbox:
                 HiColorDraw(Graphic(X))
             Next
 
-
-
         End If
-
-
 
     End Sub
 
@@ -819,11 +786,7 @@ rerenderdialogbox:
                 Draw(Graphic(X))
             Next
 
-
-
         End If
-
-
 
     End Sub
     ''' <summary>
