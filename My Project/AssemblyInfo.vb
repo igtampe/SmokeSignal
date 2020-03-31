@@ -3,11 +3,11 @@ Imports System
 Imports System.Reflection
 Imports System.Runtime.InteropServices
 
-<Assembly: AssemblyTitle("ViBE Server")>
-<Assembly: AssemblyDescription("The Visual Basic Economy Server")>
+<Assembly: AssemblyTitle("SmokeSignal")>
+<Assembly: AssemblyDescription("SmokeSignal Server")>
 <Assembly: AssemblyCompany("Igtampe Development Inc")>
-<Assembly: AssemblyCopyright("(C)2019 Igtampe, No Rights Reserved")>
-<Assembly: AssemblyVersion("3.0.0.0")>
+<Assembly: AssemblyCopyright("(C)2020 Igtampe, No Rights Reserved")>
+<Assembly: AssemblyVersion("6.0.0.0")>
 <Assembly: NeutralResourcesLanguage("en")>
 
 

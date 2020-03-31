@@ -77,6 +77,7 @@ Public Module Main
 
             'Check if we have a pending connection
             If tcpListener.Pending Then
+                ClearHeader()
 
                 'Accept it...
                 Dim networkStream As NetworkStream = New NetworkStream(tcpListener.AcceptSocket())
@@ -122,6 +123,9 @@ Public Module Main
         CenterText(Extensions.Length & " Extension(s) loaded | Listening on " & IP & ":" & Port & " ")
     End Sub
 
+    Public Sub ClearHeader()
+        Box(ConsoleColor.Black, 120, 2, 0, 0)
+    End Sub
 
     Function ParseCommand(ClientMSG As String) As String
         Dim Result As String
