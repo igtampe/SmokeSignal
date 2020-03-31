@@ -1,4 +1,3 @@
-Imports System.Collections
 Imports System.IO
 Imports System.Net
 Imports System.Net.Sockets
@@ -13,20 +12,22 @@ Public Module Main
 
     Public IP As String = "127.0.0.1"
     Public Port As Integer = 797
-    Public Extensions As SmokeSignalExtension()
+    Public Extensions(0) As SmokeSignalExtension
     'I would make that an arraylist to be simple pero no puedo sadly. Oh well.
 
     'SERVER SETUP
-    Public Const ServerName As String = "SmokeSignal Base Server"
-    Public Const ServerVersion As String = "1.0"
+    Public Const SERVER_NAME As String = "SmokeSignal Base Server"
+    Public Const SERVER_VERSION As String = "1.0"
+    Public Const HEADER_BACK_COLOR As ConsoleColor = ConsoleColor.DarkBlue
+    Public Const HEADER_FONT_COLOR As ConsoleColor = ConsoleColor.White
 
     '(pls do not touch me)
-    Public Const SmokeSignalVersion As String = "1.0"
+    Public Const SMOKESIGNAL_VERSION As String = "6.0"
 
     Public Sub RegisterAllExtensions()
         ReDim Extensions(0) 'Redim the Extensions array to the size of the number of extensions you want.
 
-        'Add your extensions
+        'Add your extensions. When creating the extension, the extension should initialize
         Extensions(0) = New DummyExtension()
     End Sub
 
@@ -37,12 +38,7 @@ Public Module Main
         Console.SetWindowSize(120, 30)
 
         'Server Initialization
-        Console.Title = ServerName & " [Version " & ServerVersion & "]"
-        DrawHeader()
-        Color(ConsoleColor.White)
-        Color(ConsoleColor.Gray)
-        Console.WriteLine("")
-        Console.WriteLine("")
+        Console.Title = SERVER_NAME & " [Version " & SERVER_VERSION & "]"
         ToConsole("Starting Server...")
 
         'Read settings
@@ -54,24 +50,26 @@ Public Module Main
             FileClose(1)
         Else
             ToFile("SmokeSettings.cfg", IP & "," & Port)
-            ToConsole("Could Not Find Settings.cfg in current directory, rendered default one")
+            ToConsole("Could Not Find Settings.cfg in current directory, rendered default one", ConsoleColor.Yellow)
         End If
 
         'Extensions Registering
         RegisterAllExtensions()
+
+        ToConsole("Registered " & Extensions.Length & " Extension(s): ", ConsoleColor.Blue)
+        For Each SmokeSignal In Extensions
+            ToConsole(" - " & SmokeSignal.getName & " [Version " & SmokeSignal.getVersion & "]", ConsoleColor.Blue)
+        Next
 
         'Actually start the server
         Dim tcpListener As TcpListener = New TcpListener(IPAddress.Parse(IP), Port)
         Dim tcpClient As TcpClient = New TcpClient()
         tcpListener.Start()
 
-        Color(ConsoleColor.Green)
-        ToConsole("Server Started!")
-        Color(ConsoleColor.Gray)
+        ToConsole("Server Started!", ConsoleColor.Green)
 
         Dim ClientMSG As String
-        Color(ConsoleColor.Yellow)
-        ToConsole("Waiting for connection...")
+        ToConsole("Waiting for connection...", ConsoleColor.Yellow)
         DrawHeader()
 
         'The bulk loop
@@ -85,9 +83,7 @@ Public Module Main
                 Dim binaryWriter As BinaryWriter = New BinaryWriter(networkStream)
                 Dim binaryReader As BinaryReader = New BinaryReader(networkStream)
 
-                Color(ConsoleColor.Green)
-                ToConsole("Connected! Waiting for string...")
-                Color(ConsoleColor.Gray)
+                ToConsole("Connected! Waiting for string...", ConsoleColor.Green)
 
                 'Try to take the string, and parse it
                 Try
@@ -99,8 +95,7 @@ Public Module Main
                 End Try
 
                 'Return to the waiting state
-                Color(ConsoleColor.Yellow)
-                ToConsole("Waiting for connection...")
+                ToConsole("Waiting for connection...", ConsoleColor.Yellow)
                 DrawHeader()
             End If
 
@@ -119,12 +114,12 @@ Public Module Main
     End Sub
 
     Public Sub DrawHeader()
-        Box(ConsoleColor.DarkBlue, 120, 2, 0, 0)
+        Box(HEADER_BACK_COLOR, 120, 2, 0, 0)
         SetPos(0, 0)
-        Color(ConsoleColor.DarkBlue, ConsoleColor.White)
-        CenterText(ServerName + " [Version " & ServerVersion & "] | Running on SmokeSignal V" & SmokeSignalVersion)
+        Color(HEADER_BACK_COLOR, HEADER_FONT_COLOR)
+        CenterText(SERVER_NAME + " [Version " & SERVER_VERSION & "] | Running on SmokeSignal V" & SMOKESIGNAL_VERSION)
         SetPos(0, 1)
-        CenterText("Listening on " & IP & ":" & Port & " ")
+        CenterText(Extensions.Length & " Extension(s) loaded | Listening on " & IP & ":" & Port & " ")
     End Sub
 
 

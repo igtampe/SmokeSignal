@@ -8,10 +8,14 @@ Public Class Utils
     ''' <summary>
     ''' Prints the requested text to the console
     ''' </summary>
-    ''' <param name="ConsoleMSG"></param>
-    Public Shared Sub ToConsole(ByVal ConsoleMSG As String)
+    ''' <param name="ConsoleMSG">The message to the console</param>
+    ''' <param name="ConsColor">Color u want to do it in</param>
+    Public Shared Sub ToConsole(ByVal ConsoleMSG As String, Optional ConsColor As ConsoleColor = ConsoleColor.Gray)
         SetPos(0, 29)
+        Dim origColor = Console.ForegroundColor
+        Color(ConsColor)
         Console.WriteLine("[" & DateTime.Now.ToString & "] " & ConsoleMSG)
+        Color(origColor)
         AddToFile("ViBEServer.log", "[" & DateTime.Now.ToString & "] " & ConsoleMSG)
     End Sub
 
