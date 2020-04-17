@@ -15,3 +15,6 @@ In addition, every 100ms, SmokeSignal will ask each registered extension to Tick
 Once you're done creating your SmokeSignal Extension, remember to register it in the main vb class!
 
 And after that, you're done! You've made your own SmokeSignal based Server Application.
+
+Now to start with a client, check out our other repo, SmokeSignalClient.
+https://github.com/igtampe/SmokeSignalClient
