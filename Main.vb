@@ -22,7 +22,7 @@ Public Module Main
     Public Const HEADER_FONT_COLOR As ConsoleColor = ConsoleColor.White
 
     '(pls do not touch me)
-    Public Const SMOKESIGNAL_VERSION As String = "6.1"
+    Public Const SMOKESIGNAL_VERSION As String = "6.1.1"
 
     Public Sub RegisterAllExtensions()
         ReDim Extensions(0) 'Redim the Extensions array to the size of the number of extensions you want.
@@ -82,11 +82,12 @@ Public Module Main
                 ClearHeader()
 
                 'Accept it...
-                Dim networkStream As NetworkStream = New NetworkStream(tcpListener.AcceptSocket())
+                Dim theSocket As Socket = tcpListener.AcceptSocket
+                Dim networkStream As NetworkStream = New NetworkStream(theSocket)
                 Dim binaryWriter As BinaryWriter = New BinaryWriter(networkStream)
                 Dim binaryReader As BinaryReader = New BinaryReader(networkStream)
 
-                ToConsole("Connected! Waiting for string...", ConsoleColor.Green)
+                ToConsole("Connected from (" & (TryCast(theSocket.RemoteEndPoint, IPEndPoint).Address.ToString) & ")! Waiting for string...", ConsoleColor.Green)
 
                 'Try to take the string, and parse it
                 Try
