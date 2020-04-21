@@ -54,7 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\DummyExtension.vb" />
-    <Compile Include="Extensions\SmokeSignalExtension.vb" />
+    <Compile Include="Extensions\ISmokeSignalExtension.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="Resources.Designer.vb">
       <AutoGen>true</AutoGen>
@@ -94,6 +94,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include=".editorconfig" />
     <None Include="My Project\app.manifest" />
   </ItemGroup>
   <PropertyGroup>

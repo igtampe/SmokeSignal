@@ -1,7 +1,5 @@
 ﻿Imports System.Resources
-Imports System
 Imports System.Reflection
-Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyTitle("SmokeSignal")>
 <Assembly: AssemblyDescription("SmokeSignal Server")>

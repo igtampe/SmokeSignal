@@ -1,14 +1,9 @@
-﻿Imports Utils
-''' <summary>
-''' Dummy extension for demonstration purposes 
-''' </summary>
+﻿''' <summary>Dummy extension for demonstration purposes</summary>
 Public Class DummyExtension
     ''Specify that we're implementing SmokeSignalExtension
-    Implements SmokeSignalExtension
+    Implements ISmokeSignalExtension
 
-    ''' <summary>
-    ''' The name of the extension
-    ''' </summary>
+    ''' <summary>The name of the extension</summary>
     Public Const EXTENSION_NAME = "Dummy extension"
     Public Const EXTENSION_VERS = "1.0"
 
@@ -18,7 +13,7 @@ Public Class DummyExtension
         ''additionally if you need to setup any arrays or cosas asi, now is the time.
     End Sub
 
-    Public Function Parse(Command As String) As String Implements SmokeSignalExtension.Parse
+    Public Function Parse(Command As String) As String Implements ISmokeSignalExtension.Parse
 
         ''Here your extension can parse a command, and do what it needs to do.
         If Command = "CONNECTED" Then
@@ -35,15 +30,15 @@ Public Class DummyExtension
         Return ""
     End Function
 
-    Public Sub Tick() Implements SmokeSignalExtension.Tick
+    Public Sub Tick() Implements ISmokeSignalExtension.Tick
         ''Here's where things that need to occur each second can be done.
     End Sub
 
-    Public Function getName() As String Implements SmokeSignalExtension.getName
+    Public Function getName() As String Implements ISmokeSignalExtension.getName
         Return EXTENSION_NAME
     End Function
 
-    Public Function getVersion() As String Implements SmokeSignalExtension.getVersion
+    Public Function getVersion() As String Implements ISmokeSignalExtension.getVersion
         Return EXTENSION_VERS
     End Function
 

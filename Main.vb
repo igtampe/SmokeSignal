@@ -2,9 +2,6 @@ Imports System.IO
 Imports System.Net
 Imports System.Net.Sockets
 
-Imports BasicRender
-Imports Utils
-
 ''' <summary>
 ''' SMOKESIGNAL SERVER VERSION 1
 ''' </summary>
@@ -12,7 +9,7 @@ Public Module Main
 
     Public IP As String = "127.0.0.1"
     Public Port As Integer = 797
-    Public Extensions(0) As SmokeSignalExtension
+    Public Extensions(0) As ISmokeSignalExtension
     'I would make that an arraylist to be simple pero no puedo sadly. Oh well.
 
     'SERVER SETUP
@@ -71,11 +68,10 @@ Public Module Main
         Dim ClientMSG As String
         ToConsole("Waiting for connection...", ConsoleColor.Yellow)
         DrawHeader()
-        Dim Wait As Boolean = True
 
         'The bulk loop
         While True
-            Wait = True
+            Dim Wait As Boolean = True
 
             'Check if we have a pending connection
             If tcpListener.Pending Then
