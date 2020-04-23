@@ -4,6 +4,9 @@ Imports System.IO
 Public Class DummyAuthenticator
     Implements ISmokeSignalAuthenticator
 
+    Private Const AUTHENTICATOR_NAME = "Dummy Authenticator"
+    Private Const AUTHENTICATOR_VERSION = "1.0"
+
     Private ReadOnly AllUsers As ArrayList
     Private ReadOnly UserFile As String
 
@@ -49,16 +52,16 @@ Public Class DummyAuthenticator
         Return AllUsers
     End Function
 
-    Public Function RegistierUser(Username As String, Password As String) As Boolean Implements ISmokeSignalAuthenticator.RegistierUser
+    Public Function RegistierUser(Username As String, Password As String) As String Implements ISmokeSignalAuthenticator.RegistierUser
 
         Dim NewUser As DummyUser = New DummyUser(Username, Password, Dummy)
 
-        If AllUsers.Contains(NewUser) Then Return False
+        If AllUsers.Contains(NewUser) Then Return "E"
 
         AllUsers.Add(NewUser)
         SaveUsers()
 
-        Return True
+        Return "OK"
 
     End Function
 
@@ -74,6 +77,40 @@ Public Class DummyAuthenticator
 
     End Sub
 
+    Public Sub UpdateUser(User As DummyUser)
+
+        For X = 0 To AllUsers.Count - 1
+            If AllUsers(X).Equals(User) Then
+                AllUsers(X) = User
+                SaveUsers()
+                Return
+            End If
+        Next
+
+    End Sub
+
+
+    Public Function Parse(ClientMSG As String) As String Implements ISmokeSignalAuthenticator.Parse
+        If Not ClientMSG.ToUpper.StartsWith("DUMMYAUTH") Then Return ""
+
+        Dim DummyAuthCommand As String() = ClientMSG.Split("|")
+        If DummyAuthCommand.Length < 2 Then Return ""
+
+        Select Case DummyAuthCommand(1)
+            Case "REG"
+                Return RegistierUser(DummyAuthCommand(2), DummyAuthCommand(3))
+        End Select
+
+        Return ""
+    End Function
+
+    Public Function GetName() As String Implements ISmokeSignalAuthenticator.GetName
+        Return AUTHENTICATOR_NAME
+    End Function
+
+    Public Function GetVersion() As String Implements ISmokeSignalAuthenticator.GetVersion
+        Return AUTHENTICATOR_VERSION
+    End Function
 End Class
 
 Public Class DummyUser
