@@ -1,10 +1,10 @@
 ﻿''' <summary>Dummy extension for demonstration purposes</summary>
-Public Class DummyExtension
+Public Class DummyAuthenticatedExtension
     ''Specify that we're inheriting SmokeSignalExtension
-    Implements ISmokeSignalExtension
+    Implements ISmokeSignalAuthenticatedExtension
 
     ''' <summary>The name of the extension</summary>
-    Private Const EXTENSION_NAME = "Dummy extension"
+    Private Const EXTENSION_NAME = "Dummy Authenticated Extension"
     Private Const EXTENSION_VERS = "1.0"
 
     Public Sub New()
@@ -15,6 +15,14 @@ Public Class DummyExtension
 
     Public Function Parse(Command As String) As String Implements ISmokeSignalExtension.Parse
 
+        'Because ISmokeSignalAuthenticatedExtension inherits ISmokeSignalExtension, your extension can have both Authenticated *and* NonAuthenticated portions
+        'However, this authenticated extension *requires* authenticated, so this should stop you from adding this extension to the non-authenticated extensions array.
+
+        Throw New NotSupportedException
+    End Function
+
+    Public Function Parse(User As ISmokeSignalUser, Command As String) As String Implements ISmokeSignalAuthenticatedExtension.Parse
+
         ''Here your extension can parse a command, and do what it needs to do.
         If Command = "CONNECTED" Then
 
@@ -22,7 +30,7 @@ Public Class DummyExtension
             ToConsole("Classic Packet, replied.")
 
             ''Whatever you return from this function will be sent back to the client who sent the command.
-            Return "You've connected to the server! Congrats."
+            Return "You've connected to the server, and successfully authenticated as " & User.ToString & "! Congrats."
         End If
 
         ''If you return "", the server will assume this extension could not parse the command, and will try to parse it
@@ -30,15 +38,16 @@ Public Class DummyExtension
         Return ""
     End Function
 
-    Public Sub tick() Implements ISmokeSignalExtension.Tick
+    Public Sub tick() Implements ISmokeSignalAuthenticatedExtension.Tick
         'Do nothing
     End Sub
 
-    Public Function GetName() As String Implements ISmokeSignalExtension.GetName
+    Public Function GetName() As String Implements ISmokeSignalAuthenticatedExtension.GetName
         Return EXTENSION_NAME
     End Function
 
-    Public Function GetVersion() As String Implements ISmokeSignalExtension.GetVersion
+    Public Function GetVersion() As String Implements ISmokeSignalAuthenticatedExtension.GetVersion
         Return EXTENSION_VERS
     End Function
+
 End Class

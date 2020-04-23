@@ -2,35 +2,26 @@ Imports System.IO
 Imports System.Net
 Imports System.Net.Sockets
 
-''' <summary>
-''' SMOKESIGNAL SERVER VERSION 1
-''' </summary>
+''' <summary>SMOKESIGNAL SERVER VERSION 7</summary>
 Public Module Main
 
-    Public IP As String = "127.0.0.1"
-    Public Port As Integer = 797
-    Public Extensions(0) As ISmokeSignalExtension
-    'I would make that an arraylist to be simple pero no puedo sadly. Oh well.
+    'CONFIGURATION HAS MOVED! See Config.VB to make any changes to the configuration of your server.
+    'Hopefully this will mean that if you ever need to update this server, all you have to do is update this file, and not have to worry about the configuration.
 
-    'SERVER SETUP
-    Public Const SERVER_NAME As String = "SmokeSignal Base Server"
-    Public Const SERVER_VERSION As String = "1.0"
-    Public Const HEADER_BACK_COLOR As ConsoleColor = ConsoleColor.DarkBlue
-    Public Const HEADER_FONT_COLOR As ConsoleColor = ConsoleColor.White
+    ''' <summary>Main SmokeSignal Authenticator for this server</summary>
+    Public Authenticator As ISmokeSignalAuthenticator
 
-    '(pls do not touch me)
-    Public Const SMOKESIGNAL_VERSION As String = "6.1.1"
+    ''' <summary>All Registered SmokeSignal Non-Authenticated Extensions</summary>
+    Public Extensions As ISmokeSignalExtension()
 
-    Public Sub RegisterAllExtensions()
-        ReDim Extensions(0) 'Redim the Extensions array to the size of the number of extensions you want.
+    ''' <summary>All Registered SmokeSignal Authenticated Extensions</summary>
+    Public AuthenticatedExtensions As ISmokeSignalAuthenticatedExtension()
 
-        'Add your extensions. When creating the extension, the extension should initialize
-        Extensions(0) = New DummyExtension()
-    End Sub
+    ''' <summary>SmokeSignal Version</summary>
+    Public Const SMOKESIGNAL_VERSION As String = "7.0"
 
     Public Sub Main()
 
-        'Console Size (Remember to update on BasicRender if u want to change this)
         Console.SetWindowSize(120, 30)
         Console.SetBufferSize(120, 30)
 
@@ -50,12 +41,20 @@ Public Module Main
             ToConsole("Could Not Find Settings.cfg in current directory, rendered default one", ConsoleColor.Yellow)
         End If
 
+        'Registering Authenticator
+        RegisterAuthenticator()
+        ToConsole("Registered Authenticator " & Authenticator.GetName & " [Version " & Authenticator.GetVersion() & "] With " & Authenticator.GetAllUsers.Count & " User(s)", ConsoleColor.Cyan)
+
         'Extensions Registering
         RegisterAllExtensions()
 
-        ToConsole("Registered " & Extensions.Length & " Extension(s): ", ConsoleColor.Blue)
+        ToConsole("Registered " & Extensions.Count & " Extension(s): ", ConsoleColor.Blue)
         For Each SmokeSignal In Extensions
-            ToConsole(" - " & SmokeSignal.getName & " [Version " & SmokeSignal.getVersion & "]", ConsoleColor.Blue)
+            ToConsole(" - " & SmokeSignal.GetName & " [Version " & SmokeSignal.GetVersion & "]", ConsoleColor.Blue)
+        Next
+
+        For Each SmokeSignal In AuthenticatedExtensions
+            ToConsole(" - " & SmokeSignal.GetName & " [Version " & SmokeSignal.GetVersion & "] (Authenticated)", ConsoleColor.DarkBlue)
         Next
 
         'Actually start the server
@@ -120,24 +119,57 @@ Public Module Main
         Color(HEADER_BACK_COLOR, HEADER_FONT_COLOR)
         CenterText(SERVER_NAME + " [Version " & SERVER_VERSION & "] | Running on SmokeSignal V" & SMOKESIGNAL_VERSION)
         SetPos(0, 1)
-        CenterText(Extensions.Length & " Extension(s) loaded | Listening on " & IP & ":" & Port & " ")
+        CenterText(Extensions.Count & " Extension(s) loaded | Listening on " & IP & ":" & Port & " ")
     End Sub
 
     Public Sub ClearHeader()
         Box(ConsoleColor.Black, 120, 2, 0, 0)
     End Sub
 
-    Function ParseCommand(ClientMSG As String) As String
+    Private Function ParseCommand(ClientMSG As String) As String
+
+        'Just in case
+        If String.IsNullOrWhiteSpace(ClientMSG) Then Return InvalidPacketSent()
+
         Dim Result As String
-        For Each SmokeSignal In Extensions
+
+        'Attempt parsing with Non-Authenticated extensions
+        For Each SmokeSignal As ISmokeSignalExtension In Extensions
             Result = SmokeSignal.Parse(ClientMSG)
             If Not String.IsNullOrEmpty(Result) Then Return Result
         Next
 
+        'Ask the authenticator to parse this
+        Result = Authenticator.Parse(ClientMSG)
+        If Not String.IsNullOrEmpty(Result) Then Return Result
+
+        'Split the client message, Should be USER|PASS|COMMAND. If there's less than 3 parts, it must be an invalid packet
+        Dim ClientSplit As String() = ClientMSG.Split("|")
+        If ClientSplit.Length < 3 Then Return InvalidPacketSent()
+
+        'Attempt to authenticate the executing user. If we cannot, then there was an authentication error
+        Dim ExecutingUser As ISmokeSignalUser = Authenticator.Authenticate(ClientSplit(0), ClientSplit(1))
+        If IsNothing(ExecutingUser) Then Return AuthenticationError(ClientSplit(0))
+
+        'Attempt to parse with authenticated extensions
+        For Each AuthSmokeSignal As ISmokeSignalAuthenticatedExtension In AuthenticatedExtensions
+            Result = AuthSmokeSignal.Parse(ExecutingUser, ClientSplit(2))
+            If Not String.IsNullOrEmpty(Result) Then Return Result
+        Next
+
         'Invalid Packet
+        Return InvalidPacketSent()
+    End Function
+
+    Private Function AuthenticationError(Username As String) As String
+        ToConsole("Authentication Failed for user " & Username, ConsoleColor.DarkRed)
+        Return "AUTHERROR"
+
+    End Function
+
+    Private Function InvalidPacketSent() As String
         ToConsole("Invalid Packet Sent")
         Return "invalid Packet Sent"
     End Function
-
 
 End Module
