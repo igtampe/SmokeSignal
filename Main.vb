@@ -1,3 +1,4 @@
+Imports System.Collections
 Imports System.IO
 Imports System.Net
 Imports System.Net.Sockets
@@ -9,8 +10,7 @@ Public Module Main
 
     Public IP As String = "127.0.0.1"
     Public Port As Integer = 797
-    Public Extensions(0) As ISmokeSignalExtension
-    'I would make that an arraylist to be simple pero no puedo sadly. Oh well.
+    Public Extensions As ArrayList
 
     'SERVER SETUP
     Public Const SERVER_NAME As String = "SmokeSignal Base Server"
@@ -19,13 +19,14 @@ Public Module Main
     Public Const HEADER_FONT_COLOR As ConsoleColor = ConsoleColor.White
 
     '(pls do not touch me)
-    Public Const SMOKESIGNAL_VERSION As String = "6.1.1"
+    Public Const SMOKESIGNAL_VERSION As String = "7.0"
 
     Public Sub RegisterAllExtensions()
-        ReDim Extensions(0) 'Redim the Extensions array to the size of the number of extensions you want.
 
         'Add your extensions. When creating the extension, the extension should initialize
-        Extensions(0) = New DummyExtension()
+        Extensions = New ArrayList From {
+            New DummyExtension()
+        }
     End Sub
 
     Public Sub Main()
@@ -53,7 +54,7 @@ Public Module Main
         'Extensions Registering
         RegisterAllExtensions()
 
-        ToConsole("Registered " & Extensions.Length & " Extension(s): ", ConsoleColor.Blue)
+        ToConsole("Registered " & Extensions.Count & " Extension(s): ", ConsoleColor.Blue)
         For Each SmokeSignal In Extensions
             ToConsole(" - " & SmokeSignal.getName & " [Version " & SmokeSignal.getVersion & "]", ConsoleColor.Blue)
         Next
@@ -120,7 +121,7 @@ Public Module Main
         Color(HEADER_BACK_COLOR, HEADER_FONT_COLOR)
         CenterText(SERVER_NAME + " [Version " & SERVER_VERSION & "] | Running on SmokeSignal V" & SMOKESIGNAL_VERSION)
         SetPos(0, 1)
-        CenterText(Extensions.Length & " Extension(s) loaded | Listening on " & IP & ":" & Port & " ")
+        CenterText(Extensions.Count & " Extension(s) loaded | Listening on " & IP & ":" & Port & " ")
     End Sub
 
     Public Sub ClearHeader()

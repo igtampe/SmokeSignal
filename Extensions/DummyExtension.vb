@@ -1,11 +1,11 @@
 ﻿''' <summary>Dummy extension for demonstration purposes</summary>
 Public Class DummyExtension
-    ''Specify that we're implementing SmokeSignalExtension
+    ''Specify that we're inheriting SmokeSignalExtension
     Implements ISmokeSignalExtension
 
     ''' <summary>The name of the extension</summary>
-    Public Const EXTENSION_NAME = "Dummy extension"
-    Public Const EXTENSION_VERS = "1.0"
+    Private Const EXTENSION_NAME = "Dummy extension"
+    Private Const EXTENSION_VERS = "1.0"
 
     Public Sub New()
         ''Here's where initialization goes.
@@ -30,16 +30,15 @@ Public Class DummyExtension
         Return ""
     End Function
 
-    Public Sub Tick() Implements ISmokeSignalExtension.Tick
-        ''Here's where things that need to occur each second can be done.
+    Public Sub tick() Implements ISmokeSignalExtension.Tick
+        'Do nothing
     End Sub
 
-    Public Function getName() As String Implements ISmokeSignalExtension.getName
+    Public Function GetName() As String Implements ISmokeSignalExtension.GetName
         Return EXTENSION_NAME
     End Function
 
-    Public Function getVersion() As String Implements ISmokeSignalExtension.getVersion
+    Public Function GetVersion() As String Implements ISmokeSignalExtension.GetVersion
         Return EXTENSION_VERS
     End Function
-
 End Class

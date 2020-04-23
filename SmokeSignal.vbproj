@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\DummyExtension.vb" />
+    <Compile Include="Extensions\ISmokeSignalAuthenticator.vb" />
     <Compile Include="Extensions\ISmokeSignalExtension.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="Resources.Designer.vb">
