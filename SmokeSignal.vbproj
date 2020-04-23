@@ -53,9 +53,15 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Authenticators\DummyAuthenticator.vb" />
+    <Compile Include="Config.vb" />
+    <Compile Include="Extensions\DummyAuthenticatedExtension.vb" />
     <Compile Include="Extensions\DummyExtension.vb" />
-    <Compile Include="Extensions\ISmokeSignalAuthenticator.vb" />
-    <Compile Include="Extensions\ISmokeSignalExtension.vb" />
+    <Compile Include="Interfaces\ISmokeSignalAuthenticatedExtension.vb" />
+    <Compile Include="Interfaces\ISmokeSignalAuthenticator.vb" />
+    <Compile Include="Interfaces\ISmokeSignalExtension.vb" />
+    <Compile Include="Interfaces\ISmokeSignalUser.vb" />
+    <Compile Include="Interfaces\ISmokeSignalUserType.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="Resources.Designer.vb">
       <AutoGen>true</AutoGen>
