@@ -2,10 +2,10 @@
 Public Interface ISmokeSignalUser
 
     ''' <summary>Gets the username of this user</summary>
-    Function getUsername() As String
+    Function GetUsername() As String
 
     ''' <summary>Get the password of this user</summary>
-    Function getPassword() As String
+    Function GetPassword() As String
 
     Function GetUserType() As ISmokeSignalUserType
 
