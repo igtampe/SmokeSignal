@@ -17,5 +17,6 @@ Once you're done creating your SmokeSignal Extension, remember to register it in
 And after that, you're done! You've made your own SmokeSignal based Server Application.
 
 Now to start with a client, check my other repos.<br>
-I have a template for a VB.NET Windows Form application here: <br>https://github.com/igtampe/SmokeSignalClient <br><br>
-And I have a small template for a Java app (though without a gui) here:<br> https://github.com/igtampe/Hermes
+I have a template for a VB.NET Windows Form application here: https://github.com/igtampe/SmokeSignalClient <br>
+A C# Command line application here: https://github.com/igtampe/SmokeSignal-CommandLine/ <br>
+And I have a small template for a Java app (though without a gui) here: https://github.com/igtampe/Hermes<br>
