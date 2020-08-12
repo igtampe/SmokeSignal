@@ -1,12 +1,15 @@
 # SmokeSignal
 SmokeSignal is a rework of ViBE's Server Framework, to be more flexible and re-usable in other applications. You're more than welcome to use it in your projects.
 
-SmokeSignal is at V6, because ViBE's server was at V5, and SmokeSignal adds a few new things.
+![SmokeSignal Default Server Images](https://raw.githubusercontent.com/igtampe/SmokeSignal/master/Images/SmokeSignal.png)
+
+SmokeSignal started at V6 because it was based on ViBE Server V5
+We're currently at V7, which added the SmokeSignal Authenticator program
 
 ## How to use it
 First, make sure to configure your SmokeSignal Server, with the name of your server application and the colors to use on the header. Also, consider changing the default port the server listens on. Even if this is configurable using the generated config file, it's nice to set this so that other users in the future don't need to.
 
-Then, create the necessary SmokeSignal Extensions you'll need.
+Then, create the SmokeSignal Extensions you'll need.
 
 SmokeSignal operates with what I call "SmokeSignal Extensions". There's a dummy extension that's included in this project, as well as an interface that should help guide users in the process of creating their own. SmokeSignal receives strings from a client, and passes it on to the registered extensions in an attempt to Parse it (Using the Parse() function). If your extension can't parse it, return an empty string, and SmokeSignal will attempt to parse it with the next one
 
