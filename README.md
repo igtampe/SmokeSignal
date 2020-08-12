@@ -3,8 +3,7 @@ SmokeSignal is a rework of ViBE's Server Framework, to be more flexible and re-u
 
 ![SmokeSignal Default Server Images](https://raw.githubusercontent.com/igtampe/SmokeSignal/master/Images/SmokeSignal.png)
 
-SmokeSignal started at V6 because it was based on ViBE Server V5
-We're currently at V7, which added the SmokeSignal Authenticator program
+SmokeSignal started at V6 because it was based on ViBE Server V5. We're currently at V7, which added the SmokeSignal Authenticator program
 
 ## How to use it
 First, make sure to configure your SmokeSignal Server, with the name of your server application and the colors to use on the header. Also, consider changing the default port the server listens on. Even if this is configurable using the generated config file, it's nice to set this so that other users in the future don't need to.
